@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("api")
 public class HealthController {
-
     @GetMapping(path="/health", produces = "application/json")
     public JsonObject checkHealth() {
         JsonObject res = new JsonObject();

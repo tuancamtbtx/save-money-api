@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
-public class UserEntity {
+public class UserEntity implements IApiBaseEntity{
     private Integer id;
     private String firstName;
     private String lastName;
