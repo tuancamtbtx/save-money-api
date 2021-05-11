@@ -31,8 +31,8 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public boolean remove(UserEntity user) {
-        return userDao.removeById(user.getId());
+    public boolean remove(String id) {
+        return userDao.removeById(id);
     }
 
     @Override
