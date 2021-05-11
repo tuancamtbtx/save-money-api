@@ -15,11 +15,7 @@ public class AuthServiceImpl implements IAuthService {
 
     @Override
     public UserEntity login(String username, String password) {
-        UserEntity user = UserEntity.builder()
-                .username("tuan")
-                .id(2)
-                .email("tuan.nguyen15@tiki.vn")
-                .build();
+        UserEntity user = userDao.findById("2");
         String token = JWTUtils.generateToken(user);
         user.setToken(token);
         return user;
@@ -28,8 +24,8 @@ public class AuthServiceImpl implements IAuthService {
     @Override
     public UserEntity logout() {
         return UserEntity.builder()
-                .username("tuan")
-                .id(2)
+                .username("tuancam")
+                .id("2")
                 .email("tuan.nguyen15@tiki.vn")
                 .build();
     }
@@ -37,8 +33,8 @@ public class AuthServiceImpl implements IAuthService {
     @Override
     public UserEntity getMe(String token) {
         return UserEntity.builder()
-                .username("tuan")
-                .id(2)
+                .username("tuancam")
+                .id("2")
                 .email("tuan.nguyen15@tiki.vn")
                 .build();
     }

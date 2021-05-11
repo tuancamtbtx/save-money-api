@@ -13,4 +13,5 @@ public class EventLogEntity {
     private int eventName;
     private String userId;
     private String description;
+
 }

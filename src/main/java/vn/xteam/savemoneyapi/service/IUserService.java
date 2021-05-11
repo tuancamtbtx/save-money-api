@@ -7,7 +7,9 @@ import java.util.Optional;
 
 public interface IUserService {
     List<UserEntity> findAll();
-    Optional<UserEntity> findById(Integer id);
-    void save(UserEntity product);
-    void remove(UserEntity product);
+    UserEntity findById(String id);
+    boolean save(UserEntity product);
+    boolean remove(UserEntity product);
+    boolean update(UserEntity product);
+
 }

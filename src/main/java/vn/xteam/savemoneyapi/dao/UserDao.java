@@ -9,11 +9,11 @@ import java.util.List;
 @Repository
 public class UserDao implements IBaseDao<UserEntity> {
     @Override
-    public List<UserEntity> getAll() {
+    public List<UserEntity> findAll() {
         List<UserEntity> list = new ArrayList<>();
         UserEntity u1 = UserEntity.builder()
                 .username("tuan")
-                .id(2)
+                .id("2")
                 .email("tuan.nguyen15@tiki.vn")
                 .build();
         list.add(u1);
@@ -21,21 +21,22 @@ public class UserDao implements IBaseDao<UserEntity> {
     }
 
     @Override
-    public UserEntity getById(String id) {
+    public UserEntity findById(String id) {
         return UserEntity.builder()
                 .username("tuan")
-                .id(2)
+                .id("2")
                 .email("tuan.nguyen15@tiki.vn")
                 .build();
     }
 
     @Override
-    public UserEntity updateById(String id) {
-        return UserEntity.builder()
-                .username("tuan")
-                .id(2)
-                .email("tuan.nguyen15@tiki.vn")
-                .build();
+    public boolean updateById(UserEntity user) {
+        return false;
+    }
+
+    @Override
+    public boolean create(UserEntity entity) {
+        return false;
     }
 
     @Override

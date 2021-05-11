@@ -17,23 +17,26 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public List<UserEntity> findAll() {
-        return userDao.getAll();
+        return userDao.findAll();
     }
 
     @Override
-    public Optional<UserEntity> findById(Integer id) {
-        UserEntity user = userDao.getById(id.toString());
-        return Optional.of(user);
+    public UserEntity findById(String id) {
+        return userDao.findById(id);
     }
 
     @Override
-    public void save(UserEntity user) {
-        System.out.println("Saved user");
+    public boolean save(UserEntity user) {
+        return userDao.create(user);
     }
 
     @Override
-    public void remove(UserEntity user) {
-        System.out.println("Removed user");
+    public boolean remove(UserEntity user) {
+        return userDao.removeById(user.getId());
+    }
 
+    @Override
+    public boolean update(UserEntity user) {
+        return  userDao.updateById(user);
     }
 }
