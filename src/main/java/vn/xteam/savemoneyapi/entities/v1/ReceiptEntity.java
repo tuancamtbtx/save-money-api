@@ -14,6 +14,7 @@ public class ReceiptEntity {
     private String accountCreatedId;
     private String savingBookId;
     private Double amount;
+    private int status; // 1: pending, 2: reject, 2: success
     private Timestamp createdAt;
     private Timestamp updatedAt;
 }

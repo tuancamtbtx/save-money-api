@@ -15,6 +15,7 @@ public class PaySlipEntity {
     private String accountCreatedId;
     private String savingBookId;
     private Double amount;
+    private int status;
     private Timestamp createdAt;
     private Timestamp updatedAt;
 }
