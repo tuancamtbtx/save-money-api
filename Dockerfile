@@ -13,10 +13,9 @@ WORKDIR /build
 COPY src /build/src
  # copy maven file to /build
 COPY pom.xml /build
-COPY settings.xml /build
  # build java with maven
 
-RUN mvn -f /build/pom.xml -s settings.xml clean package
+RUN mvn -f /build/pom.xml  clean package
 
 #stage install scylla
 
@@ -28,7 +27,7 @@ WORKDIR /usr/local/runme
  ## run in stating and production
  # copy jar file
  # copy target build/target/tiki-smarter-model-worker-*.jar to /usr/local/runme/app.jar
-COPY --from=target build/target/tiki-smarter-super-worker-*.jar app.jar
+COPY --from=target build/target/save-money-api-*.jar app.jar
  # copy project dependencies
  # cp -rf /build/target/lib/  /usr/local/runme/lib
 COPY --from=target build/target/lib lib/
