@@ -1,27 +1,19 @@
-package vn.xteam.savemoneyapi.dao;
+package vn.xteam.savemoneyapi.service.impl;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import vn.xteam.savemoneyapi.dao.UserDao;
 import vn.xteam.savemoneyapi.entities.v1.UserEntity;
+import vn.xteam.savemoneyapi.service.IAuthService;
 
-import java.util.ArrayList;
-import java.util.List;
+@Service
+public class AuthServiceImpl implements IAuthService {
 
-@Repository
-public class UserDao implements IBaseDao<UserEntity> {
-    @Override
-    public List<UserEntity> getAll() {
-        List<UserEntity> list = new ArrayList<>();
-        UserEntity u1 = UserEntity.builder()
-                .lastName("tuan")
-                .id(2)
-                .email("tuan.nguyen15@tiki.vn")
-                .build();
-        list.add(u1);
-        return list;
-    }
+    @Autowired
+    private UserDao userDao;
 
     @Override
-    public UserEntity getById(String id) {
+    public UserEntity login() {
         return UserEntity.builder()
                 .lastName("tuan")
                 .id(2)
@@ -30,7 +22,7 @@ public class UserDao implements IBaseDao<UserEntity> {
     }
 
     @Override
-    public UserEntity updateById(String id) {
+    public UserEntity logout() {
         return UserEntity.builder()
                 .lastName("tuan")
                 .id(2)
@@ -39,7 +31,11 @@ public class UserDao implements IBaseDao<UserEntity> {
     }
 
     @Override
-    public boolean removeById(String id) {
-        return false;
+    public UserEntity getMe() {
+        return UserEntity.builder()
+                .lastName("tuan")
+                .id(2)
+                .email("tuan.nguyen15@tiki.vn")
+                .build();
     }
 }

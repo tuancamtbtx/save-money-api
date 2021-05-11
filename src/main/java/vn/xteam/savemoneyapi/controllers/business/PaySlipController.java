@@ -1,6 +1,5 @@
 package vn.xteam.savemoneyapi.controllers.business;
 
-import vn.xteam.savemoneyapi.controllers.business.IController;
 import vn.xteam.savemoneyapi.entities.v1.PaySlipEntity;
 
 import java.util.List;

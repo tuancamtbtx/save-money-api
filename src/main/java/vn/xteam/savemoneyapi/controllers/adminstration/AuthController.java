@@ -1,29 +1,33 @@
 package vn.xteam.savemoneyapi.controllers.adminstration;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import vn.xteam.savemoneyapi.entities.v1.UserEntity;
+import vn.xteam.savemoneyapi.service.IAuthService;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@RequestMapping("api/v1/auth")
 @RestController
-@RequestMapping("api")
 public class AuthController {
+    @Autowired
+    private IAuthService userService;
 
-    @GetMapping(path = "/auth/me", produces = "application/json")
-    public UserEntity getMe() {
-        return null;
+    @GetMapping(path = "/me", produces = "application/json")
+    public ResponseEntity<UserEntity> getMe() {
+        UserEntity me = userService.getMe();
+        return new ResponseEntity<>(me, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/auth/login", produces = "application/json")
-    public UserEntity login() {
-        return null;
+    @PostMapping(path = "/login", produces = "application/json")
+    public ResponseEntity<UserEntity> login() {
+        UserEntity user = userService.login();
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/auth/logout", produces = "application/json")
-    public UserEntity logout() {
-        return null;
+    @PostMapping(path = "/logout", produces = "application/json")
+    public ResponseEntity<UserEntity> logout() {
+        UserEntity user = userService.login();
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }

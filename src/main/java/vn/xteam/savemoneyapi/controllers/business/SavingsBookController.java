@@ -1,7 +1,6 @@
 package vn.xteam.savemoneyapi.controllers.business;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import vn.xteam.savemoneyapi.controllers.business.IController;
 import vn.xteam.savemoneyapi.entities.v1.SavingBookEntity;
 
 import java.util.List;
