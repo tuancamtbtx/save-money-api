@@ -17,7 +17,7 @@ public class JWTUtils {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION);
         return Jwts.builder()
-                .setSubject(Long.toString(userDetails.getId()))
+                .setSubject(Integer.toString(userDetails.getId()))
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS256, JWT_SECRET)
@@ -51,7 +51,7 @@ public class JWTUtils {
 
 //    public static void main(String[] args) {
 //        UserEntity user = UserEntity.builder()
-//                .lastName("tuan")
+//                .username("tuan")
 //                .id(2)
 //                .email("tuan.nguyen15@tiki.vn")
 //                .build();

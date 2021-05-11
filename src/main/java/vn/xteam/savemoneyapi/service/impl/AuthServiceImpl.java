@@ -18,7 +18,6 @@ public class AuthServiceImpl implements IAuthService {
         UserEntity user = UserEntity.builder()
                 .username("tuan")
                 .id(2)
-                .token("")
                 .email("tuan.nguyen15@tiki.vn")
                 .build();
         String token = JWTUtils.generateToken(user);
