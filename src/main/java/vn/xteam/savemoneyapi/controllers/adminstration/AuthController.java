@@ -15,10 +15,9 @@ public class AuthController {
     private IAuthService authService;
 
     @GetMapping(path = "/me", produces = "application/json")
-    public ResponseEntity<UserEntity> getMe() {
-//        HttpUtils.getJwtFromRequest()
-        String token = "";
+    public ResponseEntity<UserEntity> getMe(@RequestHeader("authorization") String token) {
         UserEntity me = authService.getMe(token);
+        me.setToken(token);
         return new ResponseEntity<>(me, HttpStatus.OK);
     }
 
