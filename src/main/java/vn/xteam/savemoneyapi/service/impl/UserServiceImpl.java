@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements IUserService {
+
     @Autowired
     private UserDao userDao;
 
@@ -27,11 +28,12 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public void save(UserEntity user) {
-
+        System.out.println("Saved user");
     }
 
     @Override
     public void remove(UserEntity user) {
+        System.out.println("Removed user");
 
     }
 }

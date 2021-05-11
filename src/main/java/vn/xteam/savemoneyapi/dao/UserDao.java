@@ -12,7 +12,7 @@ public class UserDao implements IBaseDao<UserEntity> {
     public List<UserEntity> getAll() {
         List<UserEntity> list = new ArrayList<>();
         UserEntity u1 = UserEntity.builder()
-                .lastName("tuan")
+                .username("tuan")
                 .id(2)
                 .email("tuan.nguyen15@tiki.vn")
                 .build();
@@ -23,7 +23,7 @@ public class UserDao implements IBaseDao<UserEntity> {
     @Override
     public UserEntity getById(String id) {
         return UserEntity.builder()
-                .lastName("tuan")
+                .username("tuan")
                 .id(2)
                 .email("tuan.nguyen15@tiki.vn")
                 .build();
@@ -32,7 +32,7 @@ public class UserDao implements IBaseDao<UserEntity> {
     @Override
     public UserEntity updateById(String id) {
         return UserEntity.builder()
-                .lastName("tuan")
+                .username("tuan")
                 .id(2)
                 .email("tuan.nguyen15@tiki.vn")
                 .build();

@@ -9,12 +9,14 @@ import lombok.Setter;
 @Builder
 public class UserEntity implements IApiBaseEntity{
     private Integer id;
-    private String firstName;
-    private String lastName;
+    private String username;
     private String email;
+    private String password;
+    private String hashPassword;
+    private String token;
 
     @Override
     public String toString() {
-        return "Employee [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + "]";
+        return "Employee [id=" + id + ", firstName=" + username  + ", email=" + email + "]";
     }
 }
