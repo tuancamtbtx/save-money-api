@@ -1,9 +1,9 @@
-package vn.xteam.savemoneyapi.controllers.adminstration;
+package vn.xteam.savemoneyapi.controllers.business;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("api/v1/payslip")
+@RequestMapping("api/v1/permissions")
 @RestController
-public class PaySlipController {
+public class PermissionController {
 }

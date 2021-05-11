@@ -1,34 +1,13 @@
 package vn.xteam.savemoneyapi.controllers.business;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import vn.xteam.savemoneyapi.entities.v1.SavingBookEntity;
 
 import java.util.List;
 
-@RequestMapping("saving-books")
-public class SavingsBookController implements IController<SavingBookEntity> {
-    @Override
-    public List<SavingBookEntity> getAll() {
-        return null;
-    }
+@RequestMapping("api/v1/saving-book")
+@RestController
+public class SavingsBookController {
 
-    @Override
-    public SavingBookEntity create(String id) {
-        return null;
-    }
-
-    @Override
-    public SavingBookEntity getInfo() {
-        return null;
-    }
-
-    @Override
-    public SavingBookEntity updateById(String id) {
-        return null;
-    }
-
-    @Override
-    public void removeById(String id) {
-
-    }
 }
