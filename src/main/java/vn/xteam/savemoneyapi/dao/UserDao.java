@@ -1,46 +1,100 @@
 package vn.xteam.savemoneyapi.dao;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import vn.xteam.savemoneyapi.common.datasource.MysqlDatasource;
 import vn.xteam.savemoneyapi.entities.v1.UserEntity;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class UserDao implements IBaseDao<UserEntity> {
+    private static final String TABLE_NAME = "users";
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserDao.class.getName());
+
     @Override
     public List<UserEntity> findAll() {
-        List<UserEntity> list = new ArrayList<>();
-        UserEntity u1 = UserEntity.builder()
-                .username("tuan")
-                .id("2")
-                .email("tuan.nguyen15@tiki.vn")
-                .build();
-        list.add(u1);
-        return list;
+        Connection conn = MysqlDatasource.getConnection();
+        List<UserEntity> results = new ArrayList<>();
+        try {
+            Statement stmt = conn.createStatement();
+            String query = String.format("SELECT * FROM %s", TABLE_NAME);
+            LOGGER.info("query:" + query);
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                LOGGER.info("check: " + rs.getString("id"));
+                UserEntity user = UserEntity.builder()
+                        .id(rs.getString("id"))
+                        .username(rs.getString("username"))
+                        .createdAt(rs.getTimestamp("created_at"))
+                        .updatedAt(rs.getTimestamp("updated_at"))
+                        .build();
+                results.add(user);
+            }
+        } catch (SQLException ex) {
+            LOGGER.error(ex.getMessage(), ex);
+        } finally {
+            MysqlDatasource.releaseConnection(conn);
+        }
+        return results;
     }
-
     @Override
-    public UserEntity findById(String id) {
-        return UserEntity.builder()
-                .username("tuan")
-                .id("2")
-                .email("tuan.nguyen15@tiki.vn")
-                .build();
-    }
-
-    @Override
-    public boolean updateById(UserEntity user) {
+    public boolean updateOne(UserEntity entity) {
         return false;
+    }
+
+    @Override
+    public UserEntity findOne(String whereClause) {
+        Connection conn = MysqlDatasource.getConnection();
+        UserEntity.UserEntityBuilder userBuilder = UserEntity.builder();
+        try {
+            Statement stmt = conn.createStatement();
+            String query = "";
+            LOGGER.info("query:" + query);
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                userBuilder
+                        .id(rs.getString("id"))
+                        .username(rs.getString("username"))
+                        .createdAt(rs.getTimestamp("created_at"))
+                        .updatedAt(rs.getTimestamp("updated_at"))
+                        .build();
+            }
+        } catch (SQLException ex) {
+            LOGGER.error(ex.getMessage(), ex);
+        } finally {
+            MysqlDatasource.releaseConnection(conn);
+        }
+        return userBuilder.build();
     }
 
     @Override
     public boolean create(UserEntity entity) {
-        return false;
+        Connection conn = MysqlDatasource.getConnection();
+        try {
+            Statement stmt = conn.createStatement();
+
+            String query = String.format("INSERT INTO %s (id,password, username, email)" +
+                    " VALUES ('%s','%s', '%s', '%s')", TABLE_NAME, entity.getId(), entity.getPassword(), entity.getUsername(), entity.getEmail());
+            LOGGER.info("query:" + query);
+            return stmt.execute(query);
+
+        } catch (SQLException ex) {
+            LOGGER.error(ex.getMessage(), ex);
+            return false;
+        } finally {
+            MysqlDatasource.releaseConnection(conn);
+        }
     }
 
     @Override
-    public boolean removeById(String id) {
+    public boolean removeOne(String id) {
         return false;
     }
 }

@@ -4,12 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import vn.xteam.savemoneyapi.config.EndpointConfig;
 import vn.xteam.savemoneyapi.entities.v1.UserEntity;
 import vn.xteam.savemoneyapi.service.IUserService;
 
 import java.util.List;
 
-@RequestMapping("api/v1/users")
+@RequestMapping(EndpointConfig.USER_API)
 @RestController
 public class UserController {
     @Autowired
@@ -23,14 +24,15 @@ public class UserController {
 
     @GetMapping(path = "/{id}", produces = "application/json")
     public ResponseEntity<UserEntity> getInfo(@PathVariable String id) {
-        UserEntity info = userService.findById(id);
+        String whereClause = String.format("WHERE id = %s", id);
+        UserEntity info = userService.findById(whereClause);
         return new ResponseEntity<>(info, HttpStatus.OK);
     }
 
     @PostMapping(path = "/", produces = "application/json")
     public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity userData) {
         userService.save(userData);
-        return new ResponseEntity<>(null, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
 
     @PutMapping(path = "/{id}", produces = "application/json")

@@ -7,7 +7,6 @@ import vn.xteam.savemoneyapi.entities.v1.UserEntity;
 import vn.xteam.savemoneyapi.service.IUserService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -21,8 +20,8 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public UserEntity findById(String id) {
-        return userDao.findById(id);
+    public UserEntity findById(String whereClause) {
+        return userDao.findOne(whereClause);
     }
 
     @Override
@@ -32,11 +31,11 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public boolean remove(String id) {
-        return userDao.removeById(id);
+        return userDao.removeOne(id);
     }
 
     @Override
     public boolean update(UserEntity user) {
-        return  userDao.updateById(user);
+        return  userDao.updateOne(user);
     }
 }

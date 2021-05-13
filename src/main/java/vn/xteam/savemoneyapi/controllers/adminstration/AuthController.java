@@ -5,10 +5,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.xteam.savemoneyapi.common.utils.HttpUtils;
+import vn.xteam.savemoneyapi.config.EndpointConfig;
 import vn.xteam.savemoneyapi.entities.v1.UserEntity;
 import vn.xteam.savemoneyapi.service.IAuthService;
 
-@RequestMapping("api/v1/auth")
+@RequestMapping(EndpointConfig.AUTH_API)
 @RestController
 public class AuthController {
     @Autowired

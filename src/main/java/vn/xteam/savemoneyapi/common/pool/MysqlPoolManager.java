@@ -29,6 +29,7 @@ public class MysqlPoolManager {
         properties.setProperty("password", MainConfig.MYSQL_PASSWORD);
         properties.setProperty("max_connections", "4");
         properties.setProperty("min_connections", "2");
+        LOGGER.info(properties.toString());
         return properties;
     }
 
@@ -50,7 +51,7 @@ public class MysqlPoolManager {
         return availableConnections.size() >= maxConnection;
     }
 
-    public Connection getConnection() {
+    public  Connection getConnection() {
         while (availableConnections.size() == 0) {
             // Wait for an existing connection to be freed up.
             try {

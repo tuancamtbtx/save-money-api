@@ -12,10 +12,10 @@ public class AuthServiceImpl implements IAuthService {
 
     @Autowired
     private UserDao userDao;
-
     @Override
     public UserEntity login(String username, String password) {
-        UserEntity user = userDao.findById("2");
+        String whereClause = String.format("username = %s and password = %s", username, password);
+        UserEntity user = userDao.findOne(whereClause);
         String token = JWTUtils.generateToken(user);
         user.setToken(token);
         return user;
