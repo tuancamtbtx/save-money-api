@@ -1,5 +1,6 @@
 package vn.xteam.savemoneyapi.dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface IBaseDao<T> {
@@ -7,5 +8,5 @@ public interface IBaseDao<T> {
     public T findOne(String id);
     public boolean updateOne(T entity);
     public boolean create(T entity);
-    public boolean removeOne(String  id);
+    public boolean removeOne(String  id) throws SQLException;
 }

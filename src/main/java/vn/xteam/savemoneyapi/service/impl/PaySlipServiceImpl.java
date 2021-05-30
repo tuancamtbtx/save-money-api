@@ -9,6 +9,7 @@ import java.util.Optional;
 
 @Service
 public class PaySlipServiceImpl implements IPaySlipService {
+
     @Override
     public List<PaySlipEntity> findAll() {
         return null;

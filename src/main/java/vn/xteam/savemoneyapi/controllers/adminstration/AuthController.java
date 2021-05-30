@@ -8,12 +8,15 @@ import vn.xteam.savemoneyapi.common.utils.HttpUtils;
 import vn.xteam.savemoneyapi.config.EndpointConfig;
 import vn.xteam.savemoneyapi.entities.v1.UserEntity;
 import vn.xteam.savemoneyapi.service.IAuthService;
-
 @RequestMapping(EndpointConfig.AUTH_API)
 @RestController
 public class AuthController {
+    private final IAuthService authService;
+
     @Autowired
-    private IAuthService authService;
+    public  AuthController(IAuthService authService){
+        this.authService = authService;
+    }
 
     @GetMapping(path = "/me", produces = "application/json")
     public ResponseEntity<UserEntity> getMe(@RequestHeader("authorization") String token) {
@@ -27,8 +30,9 @@ public class AuthController {
         System.out.println(userData);
         String email = userData.getEmail();
         String password = userData.getPassword();
-        UserEntity user = authService.login(email, password);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+//        UserEntity user = authService.login(email, password);
+        System.out.println("Email: "+ email + "- Password: " + password);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     @PostMapping(path = "/logout", produces = "application/json")

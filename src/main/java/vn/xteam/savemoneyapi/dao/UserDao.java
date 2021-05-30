@@ -2,17 +2,16 @@ package vn.xteam.savemoneyapi.dao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import vn.xteam.savemoneyapi.common.datasource.MysqlDatasource;
 import vn.xteam.savemoneyapi.entities.v1.UserEntity;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 @Repository
 public class UserDao implements IBaseDao<UserEntity> {
     private static final String TABLE_NAME = "users";
@@ -44,6 +43,7 @@ public class UserDao implements IBaseDao<UserEntity> {
         }
         return results;
     }
+
     @Override
     public boolean updateOne(UserEntity entity) {
         return false;
@@ -69,7 +69,8 @@ public class UserDao implements IBaseDao<UserEntity> {
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage(), ex);
         } finally {
-            MysqlDatasource.releaseConnection(conn);
+            boolean isRelease = MysqlDatasource.releaseConnection(conn);
+            LOGGER.info("Release connection: " + isRelease);
         }
         return userBuilder.build();
     }
@@ -79,7 +80,6 @@ public class UserDao implements IBaseDao<UserEntity> {
         Connection conn = MysqlDatasource.getConnection();
         try {
             Statement stmt = conn.createStatement();
-
             String query = String.format("INSERT INTO %s (id,password, username, email)" +
                     " VALUES ('%s','%s', '%s', '%s')", TABLE_NAME, entity.getId(), entity.getPassword(), entity.getUsername(), entity.getEmail());
             LOGGER.info("query:" + query);
@@ -89,12 +89,13 @@ public class UserDao implements IBaseDao<UserEntity> {
             LOGGER.error(ex.getMessage(), ex);
             return false;
         } finally {
-            MysqlDatasource.releaseConnection(conn);
+            boolean isRelease = MysqlDatasource.releaseConnection(conn);
+            LOGGER.info("Release connection: " + isRelease);
         }
     }
 
     @Override
-    public boolean removeOne(String id) {
+    public boolean removeOne(String id) throws SQLException {
         return false;
     }
 }

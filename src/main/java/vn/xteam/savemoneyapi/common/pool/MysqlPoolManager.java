@@ -51,7 +51,7 @@ public class MysqlPoolManager {
         return availableConnections.size() >= maxConnection;
     }
 
-    public  Connection getConnection() {
+    public synchronized Connection getConnection() {
         while (availableConnections.size() == 0) {
             // Wait for an existing connection to be freed up.
             try {
@@ -64,16 +64,16 @@ public class MysqlPoolManager {
         return availableConnections.poll();
     }
 
-    public boolean releaseConnection(Connection connection) {
+    public synchronized boolean releaseConnection(Connection connection) {
         try {
             if (connection.isClosed()) {
                 initializeConnectionPool();
             } else {
-                //                notifyAll();
                 // Adds the specified element as the last element of this list
-                return availableConnections.offer(connection);
+                boolean isReleased = availableConnections.offer(connection);
                 // Wake up threads that are waiting for a connection
-//                return isReleased;
+                notifyAll();
+                return isReleased;
             }
         } catch (SQLException e) {
             LOGGER.error(e.getMessage(), e);

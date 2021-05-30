@@ -5,7 +5,7 @@ import vn.xteam.savemoneyapi.entities.v1.EventLogEntity;
 import vn.xteam.savemoneyapi.service.IEventService;
 
 @Service
-public class EventService implements IEventService {
+public class EventServiceImpl implements IEventService {
     @Override
     public void save(EventLogEntity event) {
 

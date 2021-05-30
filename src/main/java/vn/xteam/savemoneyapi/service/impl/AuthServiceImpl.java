@@ -10,8 +10,13 @@ import vn.xteam.savemoneyapi.service.IAuthService;
 @Service
 public class AuthServiceImpl implements IAuthService {
 
+    private final UserDao userDao;
+
     @Autowired
-    private UserDao userDao;
+    public AuthServiceImpl(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
     @Override
     public UserEntity login(String username, String password) {
         String whereClause = String.format("username = %s and password = %s", username, password);
