@@ -1,6 +1,8 @@
 package vn.xteam.savemoneyapi.service;
 
 
+import vn.xteam.savemoneyapi.entities.v1.PermissionEntity;
+
 import java.util.List;
 import java.util.Optional;
 

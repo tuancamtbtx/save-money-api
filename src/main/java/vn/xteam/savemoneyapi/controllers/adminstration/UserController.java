@@ -8,6 +8,7 @@ import vn.xteam.savemoneyapi.config.EndpointConfig;
 import vn.xteam.savemoneyapi.entities.v1.UserEntity;
 import vn.xteam.savemoneyapi.service.IUserService;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @RequestMapping(EndpointConfig.USER_API)
@@ -43,7 +44,7 @@ public class UserController {
     }
 
     @DeleteMapping(path = "/{id}", produces = "application/json")
-    public ResponseEntity<UserEntity> removeUser(@PathVariable String id) {
+    public ResponseEntity<UserEntity> removeUser(@PathVariable String id) throws SQLException {
         boolean check = userService.remove(id);
         return new ResponseEntity<>(null, HttpStatus.OK);
     }

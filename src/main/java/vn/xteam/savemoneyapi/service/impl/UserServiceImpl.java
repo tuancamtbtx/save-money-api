@@ -1,8 +1,12 @@
 package vn.xteam.savemoneyapi.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import vn.xteam.savemoneyapi.dao.UserDao;
+import vn.xteam.savemoneyapi.entities.v1.UserEntity;
+import vn.xteam.savemoneyapi.service.IUserService;
+
 import java.sql.SQLException;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements IUserService {
