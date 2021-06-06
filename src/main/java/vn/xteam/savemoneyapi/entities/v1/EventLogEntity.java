@@ -1,5 +1,6 @@
 package vn.xteam.savemoneyapi.entities.v1;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +10,7 @@ import lombok.ToString;
 @Getter
 @Builder
 @ToString
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class EventLogEntity {
     private  String id;
     private int eventType;
