@@ -1,5 +1,6 @@
 package vn.xteam.savemoneyapi.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vn.xteam.savemoneyapi.dao.UserDao;
 import vn.xteam.savemoneyapi.entities.v1.UserEntity;
@@ -11,7 +12,13 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements IUserService {
 
-    private UserDao userDao;
+    private final UserDao userDao;
+
+    @Autowired
+
+    public UserServiceImpl(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @Override
     public List<UserEntity> findAll() {

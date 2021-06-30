@@ -30,7 +30,11 @@ public class UserDao implements IBaseDao<UserEntity> {
                 LOGGER.info("check: " + rs.getString("id"));
                 UserEntity user = UserEntity.builder()
                         .id(rs.getString("id"))
-                        .username(rs.getString("username"))
+                        .userName(rs.getString("username"))
+                        .fullName(rs.getString("full_name"))
+                        .email(rs.getString("email"))
+                        .createdBy(rs.getString("created_by"))
+                        .updatedBy(rs.getString("updated_by"))
                         .createdAt(rs.getTimestamp("created_at"))
                         .updatedAt(rs.getTimestamp("updated_at"))
                         .build();
@@ -61,7 +65,11 @@ public class UserDao implements IBaseDao<UserEntity> {
             while (rs.next()) {
                 userBuilder
                         .id(rs.getString("id"))
-                        .username(rs.getString("username"))
+                        .userName(rs.getString("username"))
+                        .fullName(rs.getString("full_name"))
+                        .email(rs.getString("email"))
+                        .createdBy(rs.getString("created_by"))
+                        .updatedBy(rs.getString("updated_by"))
                         .createdAt(rs.getTimestamp("created_at"))
                         .updatedAt(rs.getTimestamp("updated_at"))
                         .build();
@@ -81,7 +89,7 @@ public class UserDao implements IBaseDao<UserEntity> {
         try {
             Statement stmt = conn.createStatement();
             String query = String.format("INSERT INTO %s (id,password, username, email)" +
-                    " VALUES ('%s','%s', '%s', '%s')", TABLE_NAME, entity.getId(), entity.getPassword(), entity.getUsername(), entity.getEmail());
+                    " VALUES ('%s','%s', '%s', '%s')", TABLE_NAME, entity.getId(), entity.getPassword(), entity.getUserName(), entity.getEmail());
             LOGGER.info("query:" + query);
             return stmt.execute(query);
 

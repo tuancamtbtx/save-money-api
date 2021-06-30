@@ -29,7 +29,7 @@ public class AuthServiceImpl implements IAuthService {
     @Override
     public UserEntity logout() {
         return UserEntity.builder()
-                .username("tuancam")
+                .userName("tuancam")
                 .id("2")
                 .email("tuan.nguyen15@tiki.vn")
                 .build();
@@ -38,7 +38,7 @@ public class AuthServiceImpl implements IAuthService {
     @Override
     public UserEntity getMe(String token) {
         return UserEntity.builder()
-                .username("tuancam")
+                .userName("tuancam")
                 .id("2")
                 .email("tuan.nguyen15@tiki.vn")
                 .build();

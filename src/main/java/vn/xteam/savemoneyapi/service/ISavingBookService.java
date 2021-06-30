@@ -1,7 +1,6 @@
 package vn.xteam.savemoneyapi.service;
 
 import vn.xteam.savemoneyapi.entities.v1.SavingBookEntity;
-import vn.xteam.savemoneyapi.entities.v1.UserEntity;
 
 import java.util.List;
 import java.util.Optional;

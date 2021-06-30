@@ -12,10 +12,15 @@ import java.sql.SQLException;
 import java.util.List;
 
 @RequestMapping(EndpointConfig.USER_API)
+@CrossOrigin(origins = "*")
 @RestController
 public class UserController {
+    private final IUserService userService;
+
     @Autowired
-    private IUserService userService;
+    public UserController(IUserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<UserEntity>> getAllUsers() {

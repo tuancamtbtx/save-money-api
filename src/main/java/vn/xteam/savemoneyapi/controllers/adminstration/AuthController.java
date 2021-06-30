@@ -9,6 +9,7 @@ import vn.xteam.savemoneyapi.config.EndpointConfig;
 import vn.xteam.savemoneyapi.entities.v1.UserEntity;
 import vn.xteam.savemoneyapi.service.IAuthService;
 @RequestMapping(EndpointConfig.AUTH_API)
+@CrossOrigin(origins = "*")
 @RestController
 public class AuthController {
     private final IAuthService authService;
@@ -19,7 +20,7 @@ public class AuthController {
     }
 
     @GetMapping(path = "/me", produces = "application/json")
-    public ResponseEntity<UserEntity> getMe(@RequestHeader("authorization") String token) {
+    public ResponseEntity<UserEntity> getMe(@RequestHeader("Authorization") String token) {
         UserEntity me = authService.getMe(token);
         me.setToken(token);
         return new ResponseEntity<>(me, HttpStatus.OK);
@@ -27,12 +28,11 @@ public class AuthController {
 
     @PostMapping(path = "/login", produces = "application/json")
     public ResponseEntity<UserEntity> login(@RequestBody UserEntity userData) {
-        System.out.println(userData);
         String email = userData.getEmail();
         String password = userData.getPassword();
+        UserEntity user = UserEntity.builder().userName("tuancam").token("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIyYmVhMmY1NjE1OWJkMTg1ZTk0M2Q1Y2ExMDg1M2JkZDBhNjRjM2ZlZDQ2NDRjYzNjNDFjZDNmMWI3ZGU2ZGNiIiwidHlwZSI6ImFjY2Vzc190b2tlbiIsInRpbWUiOjE2MTQ2MTE2MjMxNDEsImlhdCI6MTYxNDYxMTYyMywiZXhwIjoxNjE5Nzk1NjIzfQ.q98HCMIrUTFfbT_EVggWV8WMZoYEVwy_Kbic8szOtO").build();
 //        UserEntity user = authService.login(email, password);
-        System.out.println("Email: "+ email + "- Password: " + password);
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PostMapping(path = "/logout", produces = "application/json")
