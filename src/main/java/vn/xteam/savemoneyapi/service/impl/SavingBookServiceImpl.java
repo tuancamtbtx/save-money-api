@@ -2,20 +2,26 @@ package vn.xteam.savemoneyapi.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import vn.xteam.savemoneyapi.dao.CustomerDao;
 import vn.xteam.savemoneyapi.dao.SavingBookDao;
+import vn.xteam.savemoneyapi.entities.form.SavingBookForm;
+import vn.xteam.savemoneyapi.entities.v1.CustomerEntity;
 import vn.xteam.savemoneyapi.entities.v1.SavingBookEntity;
 import vn.xteam.savemoneyapi.service.ISavingBookService;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class SavingBookServiceImpl implements ISavingBookService {
     private final SavingBookDao savingBookDao;
+    private final CustomerDao customerDao;
 
     @Autowired
-    public SavingBookServiceImpl(SavingBookDao savingBookDao) {
+    public SavingBookServiceImpl(SavingBookDao savingBookDao,CustomerDao customerDao) {
         this.savingBookDao = savingBookDao;
+        this.customerDao = customerDao;
     }
 
     @Override
@@ -29,8 +35,19 @@ public class SavingBookServiceImpl implements ISavingBookService {
     }
 
     @Override
-    public void save(SavingBookEntity product) {
-
+    public void save(SavingBookForm body) throws Exception {
+        String idCard = body.getIdCard();
+        CustomerEntity customerByIdCard = customerDao.getCustomerByIdCard(idCard);
+        if(customerByIdCard == null) {
+            throw new Exception("Creating customerByIdCard failed, no ID obtained.");
+        }
+        SavingBookEntity savingBookEntity = SavingBookEntity.builder()
+                .customerId(customerByIdCard.getId())
+                .amount(body.getAmount())
+                .type(body.getType())
+                .build();
+        savingBookDao.create(savingBookEntity);
+        System.out.println(customerByIdCard);
     }
 
     @Override

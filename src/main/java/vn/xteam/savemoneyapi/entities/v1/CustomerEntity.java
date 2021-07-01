@@ -21,7 +21,7 @@ import java.sql.Timestamp;
 public class CustomerEntity implements Serializable {
     @SerializedName("id")
     @JsonProperty("id")
-    private String id;
+    private Long id;
 
     @SerializedName("full_name")
     @JsonProperty("full_name")

@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 public class UserEntity implements Serializable {
     @SerializedName("id")
     @JsonProperty("id")
-    private String id;
+    private Long id;
 
     @SerializedName("user_name")
     @JsonProperty("user_name")

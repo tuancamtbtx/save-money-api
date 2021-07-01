@@ -60,8 +60,8 @@ public class ReceiptDao implements IBaseDao<ReceiptEntity> {
     }
 
     @Override
-    public boolean create(ReceiptEntity entity) {
-        return false;
+    public Long create(ReceiptEntity entity) {
+        return 0L;
     }
 
     @Override

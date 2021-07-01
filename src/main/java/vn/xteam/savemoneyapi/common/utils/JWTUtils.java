@@ -17,7 +17,7 @@ public class JWTUtils {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION);
         return Jwts.builder()
-                .setSubject(userDetails.getId())
+                .setSubject(userDetails.getId().toString())
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS256, JWT_SECRET)

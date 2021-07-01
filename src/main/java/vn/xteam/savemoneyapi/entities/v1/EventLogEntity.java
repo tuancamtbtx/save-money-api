@@ -12,7 +12,7 @@ import lombok.ToString;
 @ToString
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class EventLogEntity {
-    private  String id;
+    private  Long id;
     private int eventType;
     private int eventName;
     private String userId;

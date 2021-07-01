@@ -11,5 +11,6 @@ public class EndpointConfig {
 
     public final static String EVENT_API = "api/v1/events";
     public final static String REPORT_API = "api/v1/reports";
+    public final static String RULE_API = "api/v1/rules";
 
 }

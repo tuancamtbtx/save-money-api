@@ -30,7 +30,6 @@ public class AuthServiceImpl implements IAuthService {
     public UserEntity logout() {
         return UserEntity.builder()
                 .userName("tuancam")
-                .id("2")
                 .email("tuan.nguyen15@tiki.vn")
                 .build();
     }
@@ -39,7 +38,6 @@ public class AuthServiceImpl implements IAuthService {
     public UserEntity getMe(String token) {
         return UserEntity.builder()
                 .userName("tuancam")
-                .id("2")
                 .email("tuan.nguyen15@tiki.vn")
                 .build();
     }

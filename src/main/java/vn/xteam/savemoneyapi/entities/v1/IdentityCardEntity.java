@@ -16,8 +16,9 @@ import java.sql.Timestamp;
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
-public class IdentityCardEntity {
-    private String id;
-    private String customerId;
+public class IdentityCardEntity  {
+    private Long id;
+    private String code;
+    private Long customerId;
     private Timestamp providedAt;
 }

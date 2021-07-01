@@ -11,39 +11,36 @@ import lombok.ToString;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-
 @Setter
 @Getter
 @Builder
 @ToString
-@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
-public class PaySlipEntity  implements Serializable {
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+public class RuleEntity implements Serializable {
     @SerializedName("id")
     @JsonProperty("id")
     private Long id;
-    @SerializedName("saving_book_code")
-    @JsonProperty("saving_book_code")
-    private String savingBookCode;
 
-    @SerializedName("saving_book_type")
-    @JsonProperty("saving_book_type")
-    private String savingBookType;
+    @SerializedName("name")
+    @JsonProperty("name")
+    private String name;
 
-    @SerializedName("customer_code")
-    @JsonProperty("customer_code")
-    private String customerCode;
+    @SerializedName("interest_rate")
+    @JsonProperty("interest_rate")
+    private float interestRate;
 
-    @SerializedName("customer_name")
-    @JsonProperty("customer_name")
-    private String customerName;
+    @SerializedName("min_amount")
+    @JsonProperty("min_amount")
+    private Double minAmount;
 
-    @SerializedName("amount")
-    @JsonProperty("amount")
-    private Double amount;
+    @SerializedName("period")
+    @JsonProperty("period")
+    private Integer period;
 
     @SerializedName("created_by")
     @JsonProperty("created_by")
     private String createdBy;
+
     @SerializedName("updated_by")
     @JsonProperty("updated_by")
     private String updatedBy;

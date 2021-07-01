@@ -2,10 +2,11 @@ package vn.xteam.savemoneyapi.dao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import vn.xteam.savemoneyapi.common.datasource.MysqlDatasource;
-import vn.xteam.savemoneyapi.entities.v1.PaySlipEntity;
+import vn.xteam.savemoneyapi.entities.v1.CustomerEntity;
+import vn.xteam.savemoneyapi.entities.v1.IdentityCardEntity;
+import vn.xteam.savemoneyapi.entities.v1.RuleEntity;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -14,32 +15,33 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
-
 @Repository
-public class PaySlipDao implements IBaseDao<PaySlipEntity> {
-    private static final String TABLE_NAME = "payslips";
+public class RuleDao implements IBaseDao<RuleEntity> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PaySlipDao.class.getName());
+    private static final String TABLE_NAME = "rules";
+    private static final Logger LOGGER = LoggerFactory.getLogger(RuleDao.class.getName());
 
     @Override
-    public List<PaySlipEntity> findAll() {
-        List<PaySlipEntity> results = new ArrayList<>();
+    public List<RuleEntity> findAll() {
+        List<RuleEntity> results = new ArrayList<>();
         Connection conn = MysqlDatasource.getConnection();
         try {
             Statement stmt = conn.createStatement();
-            String query = String.format("SELECT * FROM %s", TABLE_NAME);
+            String query = String.format("select * from %s", TABLE_NAME);
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 LOGGER.info("check: " + rs.getString("id"));
-                PaySlipEntity user = PaySlipEntity.builder()
+
+                RuleEntity rule = RuleEntity.builder()
                         .id(rs.getLong("id"))
+                        .name(rs.getString("name"))
+                        .interestRate(rs.getFloat("interest_rate"))
+                        .minAmount(rs.getDouble("min_amount"))
+                        .period(rs.getInt("period"))
                         .createdAt(rs.getTimestamp("created_at"))
-                        .amount(rs.getDouble("amount"))
-                        .createdBy(rs.getString("created_by"))
                         .updatedAt(rs.getTimestamp("updated_at"))
                         .build();
-                results.add(user);
+                results.add(rule);
             }
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage(), ex);
@@ -51,18 +53,18 @@ public class PaySlipDao implements IBaseDao<PaySlipEntity> {
     }
 
     @Override
-    public PaySlipEntity findOne(String id) {
+    public RuleEntity findOne(String id) {
         return null;
     }
 
     @Override
-    public boolean updateOne(PaySlipEntity entity) {
+    public boolean updateOne(RuleEntity entity) {
         return false;
     }
 
     @Override
-    public Long create(PaySlipEntity entity) {
-        return 0L;
+    public Long create(RuleEntity entity) {
+        return null;
     }
 
     @Override

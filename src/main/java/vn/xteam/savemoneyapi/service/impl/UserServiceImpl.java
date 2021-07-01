@@ -32,7 +32,8 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public boolean save(UserEntity user) {
-        return userDao.create(user);
+         userDao.create(user);
+         return true;
     }
 
     @Override

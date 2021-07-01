@@ -29,7 +29,7 @@ public class UserDao implements IBaseDao<UserEntity> {
             while (rs.next()) {
                 LOGGER.info("check: " + rs.getString("id"));
                 UserEntity user = UserEntity.builder()
-                        .id(rs.getString("id"))
+                        .id(rs.getLong("id"))
                         .userName(rs.getString("username"))
                         .fullName(rs.getString("full_name"))
                         .email(rs.getString("email"))
@@ -64,7 +64,7 @@ public class UserDao implements IBaseDao<UserEntity> {
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 userBuilder
-                        .id(rs.getString("id"))
+                        .id(rs.getLong("id"))
                         .userName(rs.getString("username"))
                         .fullName(rs.getString("full_name"))
                         .email(rs.getString("email"))
@@ -84,18 +84,28 @@ public class UserDao implements IBaseDao<UserEntity> {
     }
 
     @Override
-    public boolean create(UserEntity entity) {
+    public Long create(UserEntity entity) {
         Connection conn = MysqlDatasource.getConnection();
         try {
             Statement stmt = conn.createStatement();
             String query = String.format("INSERT INTO %s (id,password, username, email)" +
                     " VALUES ('%s','%s', '%s', '%s')", TABLE_NAME, entity.getId(), entity.getPassword(), entity.getUserName(), entity.getEmail());
             LOGGER.info("query:" + query);
-            return stmt.execute(query);
-
+            int affectedRows = stmt.executeUpdate(query);
+            if (affectedRows == 0) {
+                throw new SQLException("Creating user failed, no rows affected.");
+            }
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys();) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getLong(1);
+                }
+                else {
+                    throw new SQLException("Creating user failed, no ID obtained.");
+                }
+            }
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage(), ex);
-            return false;
+            return 0L;
         } finally {
             boolean isRelease = MysqlDatasource.releaseConnection(conn);
             LOGGER.info("Release connection: " + isRelease);

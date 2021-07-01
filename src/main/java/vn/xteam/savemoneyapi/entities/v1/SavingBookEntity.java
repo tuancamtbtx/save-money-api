@@ -15,15 +15,17 @@ import java.sql.Timestamp;
 @Getter
 @Builder
 @ToString
-@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class SavingBookEntity implements Serializable {
     @SerializedName("id")
     @JsonProperty("id")
     private String id;
     @SerializedName("customer_id")
     @JsonProperty("customer_id")
-    private String customerId;
-
+    private Long customerId;
+    @SerializedName("code")
+    @JsonProperty("code")
+    private String code;
     @SerializedName("customer_name")
     @JsonProperty("customer_name")
     private String customerName;
@@ -33,7 +35,7 @@ public class SavingBookEntity implements Serializable {
 
     @SerializedName("amount")
     @JsonProperty("amount")
-    private Long amount;
+    private Double amount;
 
     @SerializedName("type")
     @JsonProperty("type")
@@ -49,6 +51,18 @@ public class SavingBookEntity implements Serializable {
     @SerializedName("created_at")
     @JsonProperty("created_at")
     private Timestamp createdAt;
+
+    @SerializedName("status")
+    @JsonProperty("status")
+    private int status;
+
+    @SerializedName("period")
+    @JsonProperty("period")
+    private int period;
+
+    @SerializedName("interest_rate")
+    @JsonProperty("interest_rate")
+    private float interestRate;
 
     @SerializedName("updated_at")
     @JsonProperty("updated_at")
