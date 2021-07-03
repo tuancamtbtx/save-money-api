@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 public class SavingBookEntity implements Serializable {
     @SerializedName("id")
     @JsonProperty("id")
-    private String id;
+    private Long id;
     @SerializedName("customer_id")
     @JsonProperty("customer_id")
     private Long customerId;

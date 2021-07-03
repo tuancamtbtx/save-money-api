@@ -4,14 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import vn.xteam.savemoneyapi.common.datasource.MysqlDatasource;
-import vn.xteam.savemoneyapi.entities.v1.CustomerEntity;
-import vn.xteam.savemoneyapi.entities.v1.IdentityCardEntity;
 import vn.xteam.savemoneyapi.entities.v1.RuleEntity;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +48,33 @@ public class RuleDao implements IBaseDao<RuleEntity> {
     }
 
     @Override
-    public RuleEntity findOne(String id) {
+    public RuleEntity findOne(String whereClause) {
+        return null;
+    }
+
+    @Override
+    public RuleEntity findById(int id) {
+        Connection conn = MysqlDatasource.getConnection();
+        try {
+            String query = String.format("SELECT * FROM %s WHERE id = ?", TABLE_NAME);
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                return RuleEntity.builder()
+                        .id(rs.getLong("id"))
+                        .period(rs.getInt("period"))
+                        .minAmount(rs.getDouble("min_amount"))
+                        .interestRate(rs.getFloat("interest_rate"))
+                        .updatedAt(rs.getTimestamp("updated_at"))
+                        .build();
+            }
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage(), ex);
+        } finally {
+            boolean isRelease = MysqlDatasource.releaseConnection(conn);
+            LOGGER.info("Release connection: " + isRelease);
+        }
         return null;
     }
 
@@ -64,7 +85,35 @@ public class RuleDao implements IBaseDao<RuleEntity> {
 
     @Override
     public Long create(RuleEntity entity) {
-        return null;
+        Connection conn = MysqlDatasource.getConnection();
+        try {
+            String query = String.format("INSERT INTO %s (name, interest_rate,period,created_by, min_amount) VALUES (?, ?, ?, ?,?)", TABLE_NAME);
+            LOGGER.info("query:" + query);
+            PreparedStatement statement = conn.prepareStatement(query,
+                    Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, entity.getName());
+            statement.setFloat(2, entity.getInterestRate());
+            statement.setInt(3, entity.getPeriod());
+            statement.setString(4, "tuan.nguyen15");
+            statement.setDouble(5, entity.getMinAmount());
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Creating PaySlipDao failed, no rows affected.");
+            }
+            try (ResultSet generatedKeys = statement.getGeneratedKeys();) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getLong(1);
+                } else {
+                    throw new SQLException("Creating PaySlipDao failed, no ID obtained.");
+                }
+            }
+        } catch (SQLException ex) {
+            LOGGER.error(ex.getMessage(), ex);
+            return 0L;
+        } finally {
+            boolean isRelease = MysqlDatasource.releaseConnection(conn);
+            LOGGER.info("Release connection: " + isRelease);
+        }
     }
 
     @Override

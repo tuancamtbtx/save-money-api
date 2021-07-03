@@ -24,6 +24,9 @@ public class PaySlipEntity  implements Serializable {
     @SerializedName("saving_book_code")
     @JsonProperty("saving_book_code")
     private String savingBookCode;
+    @SerializedName("saving_book_id")
+    @JsonProperty("saving_book_id")
+    private Long savingBookId;
 
     @SerializedName("saving_book_type")
     @JsonProperty("saving_book_type")
@@ -32,14 +35,17 @@ public class PaySlipEntity  implements Serializable {
     @SerializedName("customer_code")
     @JsonProperty("customer_code")
     private String customerCode;
+    @SerializedName("customer_id")
+    @JsonProperty("customer_id")
+    private Long customerId;
 
     @SerializedName("customer_name")
     @JsonProperty("customer_name")
     private String customerName;
 
-    @SerializedName("amount")
-    @JsonProperty("amount")
-    private Double amount;
+    @SerializedName("debit_money")
+    @JsonProperty("debit_money")
+    private Double debitMoney;
 
     @SerializedName("created_by")
     @JsonProperty("created_by")

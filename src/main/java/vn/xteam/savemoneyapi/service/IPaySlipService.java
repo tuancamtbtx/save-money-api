@@ -10,7 +10,7 @@ public interface IPaySlipService {
 
     Optional<PaySlipEntity> findById(Integer id);
 
-    void save(PaySlipEntity product);
+    void save(PaySlipEntity product) throws Exception;
 
     void remove(PaySlipEntity product);
 }

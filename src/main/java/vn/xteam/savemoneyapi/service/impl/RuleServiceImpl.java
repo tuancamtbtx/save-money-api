@@ -27,8 +27,9 @@ public class RuleServiceImpl implements IRuleService {
     }
 
     @Override
-    public void save(RuleEntity product) {
-
+    public void save(RuleEntity rule) {
+        System.out.println(rule);
+        ruleDao.create(rule);
     }
 
     @Override

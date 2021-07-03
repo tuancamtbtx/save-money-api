@@ -84,6 +84,11 @@ public class UserDao implements IBaseDao<UserEntity> {
     }
 
     @Override
+    public UserEntity findById(int id) {
+        return null;
+    }
+
+    @Override
     public Long create(UserEntity entity) {
         Connection conn = MysqlDatasource.getConnection();
         try {

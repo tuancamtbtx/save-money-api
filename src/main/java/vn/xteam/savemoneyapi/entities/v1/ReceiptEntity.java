@@ -19,14 +19,23 @@ import java.sql.Timestamp;
 public class ReceiptEntity implements Serializable {
     @SerializedName("id")
     @JsonProperty("id")
-    private String id;
+    private Long id;
+
     @SerializedName("saving_book_code")
     @JsonProperty("saving_book_code")
     private String savingBookCode;
 
+    @SerializedName("saving_book_id")
+    @JsonProperty("saving_book_id")
+    private Long savingBookId;
+
     @SerializedName("saving_book_type")
     @JsonProperty("saving_book_type")
     private String savingBookType;
+
+    @SerializedName("customer_id")
+    @JsonProperty("customer_id")
+    private Long customerId;
 
     @SerializedName("customer_code")
     @JsonProperty("customer_code")
@@ -36,9 +45,9 @@ public class ReceiptEntity implements Serializable {
     @JsonProperty("customer_name")
     private String customerName;
 
-    @SerializedName("amount")
-    @JsonProperty("amount")
-    private Double amount;
+    @SerializedName("credit_money")
+    @JsonProperty("credit_money")
+    private Double creditMoney;
 
     @SerializedName("created_by")
     @JsonProperty("created_by")

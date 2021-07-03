@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.xteam.savemoneyapi.config.EndpointConfig;
+import vn.xteam.savemoneyapi.entities.core.MessageEntity;
 import vn.xteam.savemoneyapi.entities.v1.ReceiptEntity;
 import vn.xteam.savemoneyapi.service.IReceiptService;
 
@@ -28,9 +29,16 @@ public class ReceiptController {
     }
 
     @PostMapping(path = "/", produces = "application/json")
-    public ResponseEntity<ReceiptEntity> createUser(@RequestBody ReceiptEntity body) {
-        receiptService.save(body);
-        return new ResponseEntity<>(null, HttpStatus.CREATED);
+    public ResponseEntity<MessageEntity> createUser(@RequestBody ReceiptEntity body) throws Exception {
+        try {
+            receiptService.save(body);
+            MessageEntity res = MessageEntity.builder().message("created").status(true).build();
+            return new ResponseEntity<>(res, HttpStatus.CREATED);
+        } catch (Exception ex) {
+            MessageEntity res = MessageEntity.builder().message(ex.getMessage()).status(false).build();
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+
+        }
     }
 
 

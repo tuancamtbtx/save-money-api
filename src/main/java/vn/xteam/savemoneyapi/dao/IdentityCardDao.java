@@ -21,7 +21,12 @@ public class IdentityCardDao implements IBaseDao<IdentityCardEntity> {
     }
 
     @Override
-    public IdentityCardEntity findOne(String id) {
+    public IdentityCardEntity findOne(String where) {
+        return null;
+    }
+
+    @Override
+    public IdentityCardEntity findById(int id) {
         return null;
     }
 

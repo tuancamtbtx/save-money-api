@@ -53,7 +53,12 @@ public class CustomerDao implements IBaseDao<CustomerEntity> {
     }
 
     @Override
-    public CustomerEntity findOne(String id) {
+    public CustomerEntity findOne(String whereClause) {
+        return null;
+    }
+
+    @Override
+    public CustomerEntity findById(int id) {
         return null;
     }
 
