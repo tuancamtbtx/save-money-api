@@ -80,6 +80,7 @@ public class RuleDao implements IBaseDao<RuleEntity> {
 
     @Override
     public boolean updateOne(RuleEntity entity) {
+
         return false;
     }
 

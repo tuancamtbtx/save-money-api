@@ -2,6 +2,7 @@ package vn.xteam.savemoneyapi.service;
 
 import vn.xteam.savemoneyapi.entities.form.SavingBookForm;
 import vn.xteam.savemoneyapi.entities.v1.SavingBookEntity;
+import vn.xteam.savemoneyapi.entities.v1.SavingBookReport;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,4 +15,6 @@ public interface ISavingBookService {
     void save(SavingBookForm product) throws Exception;
 
     void remove(SavingBookEntity product);
+
+    List<SavingBookReport> report();
 }

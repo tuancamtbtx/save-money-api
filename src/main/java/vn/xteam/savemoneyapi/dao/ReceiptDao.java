@@ -23,7 +23,7 @@ public class ReceiptDao implements IBaseDao<ReceiptEntity> {
         Connection conn = MysqlDatasource.getConnection();
         try {
             Statement stmt = conn.createStatement();
-            String query = String.format("SELECT p.id, p.credit_money, p.created_at, p.updated_at, p.customer_code,p.created_by, c.full_name, c.address ,s.code FROM `%s` as p LEFT JOIN customers as c ON p.customer_id = c.id LEFT JOIN saving_books as s ON p.saving_book_id = s.id;", TABLE_NAME);
+            String query = String.format("SELECT p.id, p.credit_money, p.created_at, p.updated_at, p.customer_code,p.created_by, c.full_name, c.address ,s.code FROM `%s` as p LEFT JOIN customers as c ON p.customer_id = c.id LEFT JOIN saving_books as s ON p.saving_book_id = s.id ORDER BY p.created_at desc;", TABLE_NAME);
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 LOGGER.info("check: " + rs.getString("id"));

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import vn.xteam.savemoneyapi.common.datasource.MysqlDatasource;
 import vn.xteam.savemoneyapi.common.utils.XString;
 import vn.xteam.savemoneyapi.entities.v1.SavingBookEntity;
+import vn.xteam.savemoneyapi.entities.v1.SavingBookReport;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -30,12 +31,14 @@ public class SavingBookDao implements IBaseDao<SavingBookEntity> {
                     " s.period , s.interest_rate " +
                     " FROM `saving_books` as s " +
                     " left join customers as c " +
-                    " on c.id = s.customer_id; ";
+                    " on c.id = s.customer_id " +
+                    " ORDER BY s.created_at DESC"
+                    ;
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 SavingBookEntity saving = SavingBookEntity.builder()
                         .id(rs.getLong("id"))
-                        .type(rs.getInt("type"))
+                        .type(rs.getLong("type"))
                         .customerName(rs.getString("full_name"))
                         .amount(rs.getDouble("amount"))
                         .customerId(rs.getLong("customer_id"))
@@ -78,7 +81,7 @@ public class SavingBookDao implements IBaseDao<SavingBookEntity> {
             while (rs.next()) {
                 return SavingBookEntity.builder()
                         .id(rs.getLong("id"))
-                        .type(rs.getInt("type"))
+                        .type(rs.getLong("type"))
                         .customerName(rs.getString("full_name"))
                         .amount(rs.getDouble("amount"))
                         .customerId(rs.getLong("customer_id"))
@@ -107,7 +110,30 @@ public class SavingBookDao implements IBaseDao<SavingBookEntity> {
 
     @Override
     public boolean updateOne(SavingBookEntity entity) {
-        return false;
+        Connection conn = MysqlDatasource.getConnection();
+        try {
+            String query = String.format(
+                    "UPDATE %s " +
+                            "SET amount = ? ,status = ? " + "WHERE id = ?", TABLE_NAME);
+            LOGGER.info("query:" + query);
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setDouble(1, entity.getAmount());
+            statement.setInt(2, entity.getStatus());
+            statement.setLong(3, entity.getId());
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Creating IdentityCardEntity failed, no rows affected.");
+            } else {
+                return true;
+            }
+
+        } catch (SQLException ex) {
+            LOGGER.error(ex.getMessage(), ex);
+            return false;
+        } finally {
+            boolean isRelease = MysqlDatasource.releaseConnection(conn);
+            LOGGER.info("Release connection: " + isRelease);
+        }
     }
 
     @Override
@@ -118,11 +144,11 @@ public class SavingBookDao implements IBaseDao<SavingBookEntity> {
             LOGGER.info("query:" + query);
             PreparedStatement statement = conn.prepareStatement(query,
                     Statement.RETURN_GENERATED_KEYS);
-            String code = XString.getCodeSaving(entity.getCustomerId(), entity.getType());
+            String code = XString.getCodeSaving(entity.getCustomerId(), entity.getType().intValue());
             statement.setString(1, code);
             statement.setLong(2, entity.getCustomerId());
             statement.setDouble(3, entity.getAmount());
-            statement.setInt(4, entity.getType());
+            statement.setLong(4, entity.getType());
             statement.setString(5, "tuan.nguyen15");
             statement.setInt(6, entity.getPeriod());
             statement.setFloat(7, entity.getInterestRate());
@@ -151,4 +177,32 @@ public class SavingBookDao implements IBaseDao<SavingBookEntity> {
     public boolean removeOne(String id) throws SQLException {
         return false;
     }
+
+    public List<SavingBookReport> getReport() {
+        List<SavingBookReport> result = new ArrayList<>();
+        Connection conn = MysqlDatasource.getConnection();
+        try {
+            String query = String.format("SELECT count(*) as total, status,DATE(updated_at) date FROM %s GROUP BY date, status;\n", TABLE_NAME);
+            LOGGER.info("query:" + query);
+            PreparedStatement statement = conn.prepareStatement(query);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                SavingBookReport item = SavingBookReport.builder()
+                        .date(rs.getDate("date"))
+                        .total(rs.getInt("total"))
+                        .status(rs.getInt("status"))
+                        .build();
+                result.add(item);
+            }
+
+        } catch (SQLException ex) {
+            LOGGER.error(ex.getMessage(), ex);
+            return result;
+        } finally {
+            boolean isRelease = MysqlDatasource.releaseConnection(conn);
+            LOGGER.info("Release connection: " + isRelease);
+        }
+        return result;
+    }
+
 }

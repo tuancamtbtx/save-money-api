@@ -39,7 +39,7 @@ public class SavingBookEntity implements Serializable {
 
     @SerializedName("type")
     @JsonProperty("type")
-    private int type;
+    private Long type;
 
     @SerializedName("created_by")
     @JsonProperty("created_by")

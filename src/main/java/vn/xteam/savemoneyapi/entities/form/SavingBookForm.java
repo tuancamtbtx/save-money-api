@@ -24,7 +24,7 @@ public class SavingBookForm implements Serializable {
 
     @SerializedName("type")
     @JsonProperty("type")
-    private Integer type;
+    private Long type;
 
     @SerializedName("amount")
     @JsonProperty("amount")

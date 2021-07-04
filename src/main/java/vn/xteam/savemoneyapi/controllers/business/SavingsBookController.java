@@ -8,7 +8,7 @@ import vn.xteam.savemoneyapi.config.EndpointConfig;
 import vn.xteam.savemoneyapi.entities.core.MessageEntity;
 import vn.xteam.savemoneyapi.entities.form.SavingBookForm;
 import vn.xteam.savemoneyapi.entities.v1.SavingBookEntity;
-import vn.xteam.savemoneyapi.entities.v1.UserEntity;
+import vn.xteam.savemoneyapi.entities.v1.SavingBookReport;
 import vn.xteam.savemoneyapi.service.ISavingBookService;
 
 import java.util.List;
@@ -40,6 +40,10 @@ public class SavingsBookController {
             MessageEntity res = MessageEntity.builder().message(ex.getMessage()).status(false).build();
             return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
         }
-
+    }
+    @GetMapping(path = "/report",produces = "application/json")
+    public ResponseEntity<List<SavingBookReport>> report() {
+        List<SavingBookReport> list = savingBookService.report();
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }

@@ -8,6 +8,7 @@ public class EndpointConfig {
     public final static String RECEIPT_API = "api/v1/receipts";
     public final static String PAY_SLIP_API = "api/v1/payslips";
     public final static String SAVING_BOOK_API = "api/v1/saving-books";
+    public final static String TRANSACTION_API = "api/v1/transactions";
 
     public final static String EVENT_API = "api/v1/events";
     public final static String REPORT_API = "api/v1/reports";

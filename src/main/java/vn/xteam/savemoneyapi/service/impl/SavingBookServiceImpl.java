@@ -5,13 +5,11 @@ import org.springframework.stereotype.Service;
 import vn.xteam.savemoneyapi.dao.CustomerDao;
 import vn.xteam.savemoneyapi.dao.RuleDao;
 import vn.xteam.savemoneyapi.dao.SavingBookDao;
+import vn.xteam.savemoneyapi.dao.TransactionDao;
 import vn.xteam.savemoneyapi.entities.form.SavingBookForm;
-import vn.xteam.savemoneyapi.entities.v1.CustomerEntity;
-import vn.xteam.savemoneyapi.entities.v1.RuleEntity;
-import vn.xteam.savemoneyapi.entities.v1.SavingBookEntity;
+import vn.xteam.savemoneyapi.entities.v1.*;
 import vn.xteam.savemoneyapi.service.ISavingBookService;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,12 +18,13 @@ public class SavingBookServiceImpl implements ISavingBookService {
     private final SavingBookDao savingBookDao;
     private final CustomerDao customerDao;
     private final RuleDao ruleDao;
-
+    private final TransactionDao transactionDao;
     @Autowired
-    public SavingBookServiceImpl(SavingBookDao savingBookDao,CustomerDao customerDao,RuleDao ruleDao) {
+    public SavingBookServiceImpl(SavingBookDao savingBookDao,CustomerDao customerDao,RuleDao ruleDao,TransactionDao transactionDao) {
         this.savingBookDao = savingBookDao;
         this.customerDao = customerDao;
         this.ruleDao = ruleDao;
+        this.transactionDao = transactionDao;
     }
 
     @Override
@@ -44,11 +43,11 @@ public class SavingBookServiceImpl implements ISavingBookService {
         String idCard = body.getIdCard();
         CustomerEntity customerByIdCard = customerDao.getCustomerByIdCard(idCard);
         if(customerByIdCard == null) {
-            throw new Exception("Creating customerByIdCard failed, no ID obtained.");
+            throw new Exception("Không tìm thấy khách hàng");
         }
-        RuleEntity rule = ruleDao.findById(body.getType());
+        RuleEntity rule = ruleDao.findById(body.getType().intValue());
         if(body.getAmount() < rule.getMinAmount()) {
-            throw new Exception("Not Enough Money");
+            throw new Exception("Số tiền nhỏ hơn hạn mức thấp nhất");
         }
         SavingBookEntity savingBookEntity = SavingBookEntity.builder()
                 .customerId(customerByIdCard.getId())
@@ -57,12 +56,26 @@ public class SavingBookServiceImpl implements ISavingBookService {
                 .period(rule.getPeriod())
                 .type(body.getType())
                 .build();
-        savingBookDao.create(savingBookEntity);
-        System.out.println(customerByIdCard);
+        Long id = savingBookDao.create(savingBookEntity);
+        if(id > 0) {
+            TransactionEntity transactionEntity = TransactionEntity.builder()
+                    .savingBookId(id)
+                    .customerId(savingBookEntity.getCustomerId())
+                    .creditMoney(savingBookEntity.getAmount())
+                    .debitMoney(0.0)
+                    .ruleId(body.getType())
+                    .build();
+            transactionDao.create(transactionEntity);
+        }
     }
 
     @Override
     public void remove(SavingBookEntity product) {
 
+    }
+
+    @Override
+    public List<SavingBookReport> report() {
+        return savingBookDao.getReport();
     }
 }
